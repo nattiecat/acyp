@@ -1,4 +1,5 @@
 #!/usr/bin/env python2.7
+# vim: set fileencoding=utf-8 :
 
 # a simple affine cypher program for encrypting and decrypting ASCII text.
 # A plaintext character 'p' is encrypted  by an invertible function 'e' on
