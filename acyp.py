@@ -1,16 +1,22 @@
-#!/bin/usr/python
+#!/usr/bin/env python2.7
 
-# a simple affine cypher program. A plaintext character p is encrypted
-# by an invertible function f on Z_mod_256 with f(p) = a*p + b (mod 256),
-# where a and b are the 'keys' to the affine cypher f.
+# a simple affine cypher program for encrypting and decrypting ASCII text.
+# A plaintext character 'p' is encrypted  by an invertible function 'e' on
+# Z_mod_256 with e(p) = a*p + b (mod 256), where 'a' and 'b' are elements
+# of Z_mod_256 that act as the 'keys' to the cypher 'e'. 'a' must be rela-
+# tively prime to 256 (so that any odd integer (mod 256) will do) in order 
+# for 'e' to be invertible, in which case the inverse function 'd' acts to
+# decrypt a cyphertext character 'q' with d(q) = ã*(q - b), where 'ã' is 
+# the multiplicative inverse of 'a' in Z_mod_256. 'b' is any old integer
+# (mod 256). Good for 'b'.  
 
 import sys
 
-_a = 51     # cypher key _a in q = _a*p + _b (mod 255)
-_b = 201     # cypher key _b in q = _a*p + _b (mod 255)
-_a_inv = 251 # cypher key _a_inv in p = (_a_inv)*(q - _b) (mod 255)
+_a = 51     # cypher key 'a' in e(p) = a*p + b (mod 255)
+_b = 201     # cypher key 'b' in e(p) = a*p + b (mod 255)
+_a_inv = 251 # cypher key 'ã' in d(q) = ã*(q-b) (mod 255)
 
-# sets the cypher key 'a' to the given integer value
+# sets the cypher key 'a' to the given odd integer value
 def set_a(i):
     if not isinstance(i,int):
         raise TypeError('Argument must be an int')
@@ -21,6 +27,7 @@ def set_a(i):
     global _a_inv
     _a_inv = __brute_force_mult_inv(_a)
 
+# sets the cypher key 'b' to the given integer value
 def set_b(j):
     if not isinstance(j,int):
         raise TypeError('Argument must be an int')
@@ -29,6 +36,9 @@ def set_b(j):
 
 # brute force calculation of the multiplicative inverse of _a
 # in Z_mod_256 until I bother programming a more efficient algorithm
+# (not that I really need to for this project, but it will be fun to
+# try to implement the Euclidean Algorithm / Bezout's Theorm for cal-
+# culating multiplicative inverses in finite rings).
 # returns the multiplicative inverse of the given _a in Z_mod_256, if
 # it exists; otherwise returns -1 to indicate _a has no inverse
 def __brute_force_mult_inv(_a):
