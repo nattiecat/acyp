@@ -75,3 +75,36 @@ def decrypt(t):
         s += chr(p)
     return s
 
+# a main function to do some practice with running acyp from
+# the command line.  This version will read text from a file
+# whose name is given as sys.argv[1]; encrypt the text and
+# write it to a file of the same name with the suffix '.enc';
+# then read the encrypted file, decrypt it, and write the de-
+# crypted text to a file of the same name with the suffix '.dec'
+# If all goes well, the original file and the '.dec' file should
+# have the exact same contents! 
+def main():
+    if len(sys.argv) < 2:
+        print 'this is some usage info about how to invoke acyp'
+        sys.exit(1)
+    # step one: encryption
+    fname = sys.argv[1]
+    fin = open(fname)
+    fout = open(fname + '.enc', 'w')
+    for line in fin:
+        s = encrypt(line)
+        fout.write(s)
+    fout.close()
+    fin.close()
+    # step two: decryption
+    fin = open(fname + '.enc')
+    fout = open(fname + '.dec', 'w')
+    for line in fin:
+        s = decrypt(line)
+        fout.write(s)
+    fout.close()
+    fin.close()
+    sys.exit(0)
+
+if __name__ == '__main__':
+    main()
