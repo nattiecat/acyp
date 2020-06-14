@@ -1,2 +1,5 @@
 # ignore python bytecode
 *.pyc
+
+# ignore my testfiles
+testfile*
